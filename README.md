@@ -1,4 +1,4 @@
-# 🌌 PONTUAL | Zenith Engine
+# 🌌 PONTUAL | Dashboard de Produtividade
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build with: Gemini AI](https://img.shields.io/badge/AI-Gemini%20Flash-blue)](https://deepmind.google/technologies/gemini/)
