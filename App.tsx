@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { AppMode } from './types.ts';
+import { useLocalStorage } from './hooks/useLocalStorage.ts';
+import { useVoiceCommands } from './hooks/useVoiceCommands.ts';
+import { UserSettings } from './types.ts';
 import Sidebar from './components/Sidebar.tsx';
 import ClockView from './components/ClockView.tsx';
 import AlarmView from './components/AlarmView.tsx';
 import StopwatchView from './components/StopwatchView.tsx';
 import TimerView from './components/TimerView.tsx';
 import PomodoroView from './components/PomodoroView.tsx';
+import TodoView from './components/TodoView.tsx';
+import StatsView from './components/StatsView.tsx';
+import SettingsView from './components/SettingsView.tsx';
 import SmartAdvice from './components/SmartAdvice.tsx';
 
 /**
@@ -13,9 +19,21 @@ import SmartAdvice from './components/SmartAdvice.tsx';
  * Componente central que orquestra a navegação e o estado global.
  */
 const App: React.FC = () => {
-  // Estado de navegação (Pode ser substituído por react-router-dom no futuro)
-  const [currentMode, setCurrentMode] = useState<AppMode>(AppMode.CLOCK);
+  // Configurações e Temas
+  const [settings] = useLocalStorage<UserSettings>('pontual_settings', {
+    theme: 'indigo',
+    notificationsEnabled: true,
+    voiceCommandsEnabled: false,
+    pomodoroWorkTime: 25,
+    pomodoroBreakTime: 5
+  });
+
+  // Estado de navegação persistente
+  const [currentMode, setCurrentMode] = useLocalStorage<AppMode>('pontual_current_mode', AppMode.CLOCK);
   
+  // Ativar Comandos de Voz
+  useVoiceCommands(settings.voiceCommandsEnabled, setCurrentMode);
+
   // Estado do tempo global (Sincronizado para todos os componentes)
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -40,13 +58,28 @@ const App: React.FC = () => {
         return <TimerView />;
       case AppMode.POMODORO: 
         return <PomodoroView />;
+      case AppMode.TODO: 
+        return <TodoView />;
+      case AppMode.STATS: 
+        return <StatsView />;
+      case AppMode.SETTINGS: 
+        return <SettingsView />;
       default: 
         return <ClockView time={currentTime} />;
     }
   };
 
+  // Mapeamento de cores de tema para classes Tailwind
+  const themeClasses: Record<string, string> = {
+    indigo: 'selection:bg-indigo-500/30 [--accent:theme(colors.indigo.500)]',
+    emerald: 'selection:bg-emerald-500/30 [--accent:theme(colors.emerald.500)]',
+    rose: 'selection:bg-rose-500/30 [--accent:theme(colors.rose.500)]',
+    amber: 'selection:bg-amber-500/30 [--accent:theme(colors.amber.500)]',
+    purple: 'selection:bg-purple-500/30 [--accent:theme(colors.purple.500)]',
+  };
+
   return (
-    <div className="flex flex-col md:flex-row h-screen w-screen bg-[#030712] text-gray-100 overflow-hidden selection:bg-indigo-500/30">
+    <div className={`flex flex-col md:flex-row h-screen w-screen bg-[#030712] text-gray-100 overflow-hidden ${themeClasses[settings.theme]}`}>
       
       {/* Navegação Lateral/Inferior Otimizada */}
       <Sidebar activeMode={currentMode} onSelectMode={setCurrentMode} />
@@ -62,7 +95,7 @@ const App: React.FC = () => {
           {/* Header Discreto do Dashboard */}
           <header className="flex justify-between items-center mb-8 md:mb-12">
             <div className="flex flex-col">
-              <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-indigo-400/80">
+              <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-[var(--accent)] opacity-80">
                 Dashboard de Produtividade
               </h2>
               <p className="text-xs text-gray-500 font-medium">
