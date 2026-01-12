@@ -80,3 +80,45 @@ function toggleFullscreen(){
     document.exitFullscreen()
   }
 }
+// Seletor de Dispositivo
+document.getElementById('deviceSelect').addEventListener('change', function() {
+    const canvas = document.getElementById('app-canvas');
+    canvas.style.width = this.value;
+    if(this.value !== '100%') {
+        canvas.style.border = '10px solid #222';
+        canvas.style.borderRadius = '20px';
+    } else {
+        canvas.style.border = 'none';
+    }
+});
+
+// Relógios Mundiais
+function updateWorldTime() {
+    const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    
+    document.getElementById('fuso-london').textContent = 
+        new Date().toLocaleTimeString('pt-BR', { ...timeOptions, timeZone: 'Europe/London' });
+    
+    document.getElementById('fuso-ny').textContent = 
+        new Date().toLocaleTimeString('pt-BR', { ...timeOptions, timeZone: 'America/New_York' });
+    
+    document.getElementById('fuso-tokyo').textContent = 
+        new Date().toLocaleTimeString('pt-BR', { ...timeOptions, timeZone: 'Asia/Tokyo' });
+}
+setInterval(updateWorldTime, 1000);
+
+// Copiar Hora
+function copyTime() {
+    const currentTime = document.querySelector('.main-clock-display').innerText;
+    navigator.clipboard.writeText(currentTime);
+    // Adicione um pequeno efeito visual de "Copiado" se desejar
+}
+
+// Fullscreen (Melhorado)
+function toggleFS() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+    } else {
+        document.exitFullscreen();
+    }
+}
