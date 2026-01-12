@@ -2,6 +2,7 @@ function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'))
   document.getElementById(id).classList.add('active')
 }
+
 function updateClock(){
   const n=new Date()
   hours.textContent=String(n.getHours()).padStart(2,'0')
@@ -11,26 +12,32 @@ function updateClock(){
 }
 setInterval(updateClock,1000);updateClock()
 
-let alarms=[]
+let alarms=JSON.parse(localStorage.getItem('alarms')||'[]')
 function setAlarm(){
   const t=alarmTime.value
-  if(t){alarms.push(t);renderAlarms()}
+  if(t){alarms.push(t);saveAlarms()}
+}
+function saveAlarms(){
+  localStorage.setItem('alarms',JSON.stringify(alarms))
+  renderAlarms()
 }
 function renderAlarms(){
   alarmList.innerHTML=''
-  alarms.forEach(a=>{
+  alarms.forEach((a,i)=>{
     const li=document.createElement('li')
     li.textContent=a
+    li.onclick=()=>{alarms.splice(i,1);saveAlarms()}
     alarmList.appendChild(li)
   })
 }
+renderAlarms()
+
 setInterval(()=>{
-  const now=new Date()
-  const time=now.toTimeString().slice(0,5)
+  const time=new Date().toTimeString().slice(0,5)
   if(alarms.includes(time)){
     alert('⏰ Alarme!')
     alarms=alarms.filter(a=>a!==time)
-    renderAlarms()
+    saveAlarms()
   }
 },1000)
 
@@ -64,4 +71,12 @@ function resetPomodoro(){
   pomoInterval=null
   pomoTime=1500
   pomodoroDisplay.textContent='25:00'
+}
+
+function toggleFullscreen(){
+  if(!document.fullscreenElement){
+    document.documentElement.requestFullscreen()
+  }else{
+    document.exitFullscreen()
+  }
 }

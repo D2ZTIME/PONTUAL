@@ -7,11 +7,13 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <div class="sidebar">
-  <button onclick="showScreen('clock')">🕒</button>
-  <button onclick="showScreen('alarm')">⏰</button>
-  <button onclick="showScreen('stopwatch')">⏱️</button>
-  <button onclick="showScreen('pomodoro')">🍅</button>
+  <button onclick="showScreen('clock')" title="Relógio">🕒</button>
+  <button onclick="showScreen('alarm')" title="Alarme">⏰</button>
+  <button onclick="showScreen('stopwatch')" title="Cronômetro">⏱️</button>
+  <button onclick="showScreen('pomodoro')" title="Pomodoro">🍅</button>
+  <button onclick="toggleFullscreen()" title="Tela cheia">⛶</button>
 </div>
 
 <main class="container">
@@ -25,7 +27,7 @@
 </section>
 
 <section id="alarm" class="screen">
-  <h2>Alarme</h2>
+  <h2>Alarmes</h2>
   <input type="time" id="alarmTime">
   <button onclick="setAlarm()">Adicionar</button>
   <ul id="alarmList"></ul>
@@ -48,9 +50,12 @@
 
 <footer class="footer">
   <span>GLOBAL SYNC · UTC -3</span>
-  <span>VERSION 1.2.0-stable</span>
+  <span>VERSION 1.3.0-stable</span>
 </footer>
 </main>
+
+<audio id="alarmSound"></audio>
+
 <script src="script.js"></script>
 </body>
 </html>
