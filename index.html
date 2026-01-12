@@ -59,3 +59,35 @@
 <script src="script.js"></script>
 </body>
 </html>
+<div class="preview-toolbar">
+    <label>VIEW MODE:</label>
+    <select id="deviceSelect">
+        <option value="100%">Desktop (Full)</option>
+        <option value="768px">Tablet View</option>
+        <option value="375px">Mobile View</option>
+    </select>
+</div>
+
+<div id="app-canvas">
+    <div id="date-display" class="highlight-date">--/--/----</div>
+
+    <div class="world-sync-grid">
+        <div class="fuso-card">
+            <span class="fuso-label">LONDON</span>
+            <div id="fuso-london" class="fuso-time">00:00</div>
+        </div>
+        <div class="fuso-card">
+            <span class="fuso-label">NEW YORK</span>
+            <div id="fuso-ny" class="fuso-time">00:00</div>
+        </div>
+        <div class="fuso-card">
+            <span class="fuso-label">TOKYO</span>
+            <div id="fuso-tokyo" class="fuso-time">00:00</div>
+        </div>
+    </div>
+
+    <div class="action-bar">
+        <button onclick="toggleFS()" class="btn-pro">FULLSCREEN</button>
+        <button onclick="copyTime()" class="btn-pro">COPY TIME</button>
+    </div>
+</div>
