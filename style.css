@@ -60,3 +60,49 @@ button, .control-btn {
 
 .fuso-label { font-size: 0.7rem; opacity: 0.6; }
 .fuso-time { font-size: 1.2rem; font-weight: bold; }
+/* Estilo dos Botões de Ajuste (Maiores para facilitar o toque) */
+.btn-adjust {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    background: transparent;
+    border: 2px solid #00ff88;
+    color: #00ff88;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.btn-adjust:hover { background: rgba(0, 255, 136, 0.2); }
+
+.custom-input {
+    background: #111;
+    color: #00ff88;
+    border: 1px solid #333;
+    padding: 15px;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+/* Grid de Fusos Horários */
+.world-clock-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-top: 50px;
+    border-top: 1px solid #222;
+    padding-top: 20px;
+}
+
+.fuso-item { text-align: center; }
+.fuso-item span { font-size: 0.7rem; color: #888; display: block; }
+.fuso-item b { font-size: 1.5rem; color: #fff; }
+
+/* Fonte da Data Aumentada */
+.highlight-date {
+    font-size: 2rem;
+    color: #00ff88;
+    margin-top: 10px;
+}
+
