@@ -85,7 +85,28 @@
             <div id="fuso-tokyo" class="fuso-time">00:00</div>
         </div>
     </div>
+<section class="control-panel">
+    <div class="calendar-box">
+        <input type="date" id="calendar-input" class="custom-input">
+        <p id="display-full-date" class="highlight-date"></p>
+    </div>
 
+    <div class="alarm-settings">
+        <div class="alarm-controls">
+            <button onclick="adjustAlarm(-1)" class="btn-adjust">-</button>
+            <input type="time" id="alarm-time" class="custom-input">
+            <button onclick="adjustAlarm(1)" class="btn-adjust">+</button>
+        </div>
+        <button id="add-alarm-btn" class="btn-pro">ADICIONAR ALARME</button>
+    </div>
+</section>
+
+<section class="world-clock-grid">
+    <div class="fuso-item"><span>LONDRES</span><b id="tz-london">00:00</b></div>
+    <div class="fuso-item"><span>NOVA YORK</span><b id="tz-ny">00:00</b></div>
+    <div class="fuso-item"><span>TÓQUIO</span><b id="tz-tokyo">00:00</b></div>
+    <div class="fuso-item"><span>SÃO PAULO</span><b id="tz-sp">00:00</b></div>
+</section>
     <div class="action-bar">
         <button onclick="toggleFS()" class="btn-pro">FULLSCREEN</button>
         <button onclick="copyTime()" class="btn-pro">COPY TIME</button>
