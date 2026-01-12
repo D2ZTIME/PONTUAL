@@ -122,3 +122,30 @@ function toggleFS() {
         document.exitFullscreen();
     }
 }
+// Atualização dos Fusos Horários
+function updateWorldClocks() {
+    const config = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+    
+    document.getElementById('tz-london').innerText = new Date().toLocaleTimeString('pt-BR', { ...config, timeZone: 'Europe/London' });
+    document.getElementById('tz-ny').innerText = new Date().toLocaleTimeString('pt-BR', { ...config, timeZone: 'America/New_York' });
+    document.getElementById('tz-tokyo').innerText = new Date().toLocaleTimeString('pt-BR', { ...config, timeZone: 'Asia/Tokyo' });
+    document.getElementById('tz-sp').innerText = new Date().toLocaleTimeString('pt-BR', { ...config, timeZone: 'America/Sao_Paulo' });
+}
+setInterval(updateWorldClocks, 1000);
+
+// Função para incrementar/decrementar tempo do alarme (exemplo simples)
+function adjustAlarm(minutes) {
+    const alarmInput = document.getElementById('alarm-time');
+    if (!alarmInput.value) alarmInput.value = "08:00";
+    
+    let [h, m] = alarmInput.value.split(':').map(Number);
+    let date = new Date();
+    date.setHours(h, m + minutes);
+    
+    const newH = String(date.getHours()).padStart(2, '0');
+    const newM = String(date.getMinutes()).padStart(2, '0');
+    alarmInput.value = `${newH}:${newM}`;
+}
+
+// Inicializar calendário com data de hoje
+document.getElementById('calendar-input').valueAsDate = new Date();
