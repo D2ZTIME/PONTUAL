@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>PONTUAL — Precision Time</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="sidebar">
+  <button onclick="showScreen('clock')">🕒</button>
+  <button onclick="showScreen('alarm')">⏰</button>
+  <button onclick="showScreen('stopwatch')">⏱️</button>
+  <button onclick="showScreen('pomodoro')">🍅</button>
+</div>
+
+<main class="container">
+<section id="clock" class="screen active">
+  <div class="system">ZENITH PRECISION SYSTEM</div>
+  <div class="clock">
+    <span id="hours">00</span>:<span id="minutes">00</span>
+    <span class="sec"><span id="seconds">00</span><small>SEC</small></span>
+  </div>
+  <div id="date" class="date"></div>
+</section>
+
+<section id="alarm" class="screen">
+  <h2>Alarme</h2>
+  <input type="time" id="alarmTime">
+  <button onclick="setAlarm()">Adicionar</button>
+  <ul id="alarmList"></ul>
+</section>
+
+<section id="stopwatch" class="screen">
+  <h2>Cronômetro</h2>
+  <div id="stopwatchDisplay">00:00:00</div>
+  <button onclick="startStopwatch()">Iniciar</button>
+  <button onclick="stopStopwatch()">Parar</button>
+  <button onclick="resetStopwatch()">Zerar</button>
+</section>
+
+<section id="pomodoro" class="screen">
+  <h2>Pomodoro</h2>
+  <div id="pomodoroDisplay">25:00</div>
+  <button onclick="startPomodoro()">Iniciar</button>
+  <button onclick="resetPomodoro()">Resetar</button>
+</section>
+
+<footer class="footer">
+  <span>GLOBAL SYNC · UTC -3</span>
+  <span>VERSION 1.2.0-stable</span>
+</footer>
+</main>
+<script src="script.js"></script>
+</body>
+</html>
