@@ -17,7 +17,7 @@
 
 <main class="container">
 <section id="clock" class="screen active">
-  <div class="system"> D2Z PRECISION SYSTEM</div>
+  <div class="system">ZENITH PRECISION SYSTEM</div>
   <div class="clock">
     <span id="hours">00</span>:<span id="minutes">00</span>
     <span class="sec"><span id="seconds">00</span></span>
@@ -30,19 +30,17 @@
   <input type="time" id="alarmTime">
   <button onclick="setAlarm()">Ativar alarme</button>
   <p id="alarmStatus">Nenhum alarme definido</p>
- <h2>Alarme</h2>
-  <input type="time" id="alarmTime">
-  <button onclick="setAlarm()">Ativar alarme</button>
-  <p id="alarmStatus">Nenhum alarme definido</p>
-  </section>
-  <section id="stopwatch" class="screen">
+</section>
+
+<section id="stopwatch" class="screen">
   <h2>Cronômetro</h2>
   <div id="stopwatchTime" class="timer">00:00:00</div>
   <button onclick="startStopwatch()">Iniciar</button>
   <button onclick="pauseStopwatch()">Pausar</button>
   <button onclick="resetStopwatch()">Resetar</button>
 </section>
- 
+
+<section id="pomodoro" class="screen">
   <h2>Pomodoro</h2>
   <div id="pomodoroTime" class="pomodoro-time">25:00</div>
   <div class="controls">
@@ -62,4 +60,3 @@
 <script src="script.js"></script>
 </body>
 </html>
- 
