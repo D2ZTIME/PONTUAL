@@ -25,6 +25,21 @@
   <div id="date" class="date"></div>
 </section>
 
+<section id="alarm" class="screen">
+  <h2>Alarme</h2>
+  <input type="time" id="alarmTime">
+  <button onclick="setAlarm()">Ativar alarme</button>
+  <p id="alarmStatus">Nenhum alarme definido</p>
+</section>
+
+<section id="stopwatch" class="screen">
+  <h2>Cronômetro</h2>
+  <div id="stopwatchTime" class="timer">00:00:00</div>
+  <button onclick="startStopwatch()">Iniciar</button>
+  <button onclick="pauseStopwatch()">Pausar</button>
+  <button onclick="resetStopwatch()">Resetar</button>
+</section>
+
 <section id="pomodoro" class="screen">
   <h2>Pomodoro</h2>
   <div id="pomodoroTime" class="pomodoro-time">25:00</div>
@@ -38,7 +53,7 @@
 
 <footer class="footer">
   <span>UTC -3</span>
-  <span>v2.0</span>
+  <span>v2.1</span>
 </footer>
 </main>
 
