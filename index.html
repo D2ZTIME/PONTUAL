@@ -8,95 +8,40 @@
 </head>
 <body>
 
-<div class="sidebar">
-  <button onclick="showScreen('clock')" title="Relógio">🕒</button>
-  <button onclick="showScreen('alarm')" title="Alarme">⏰</button>
-  <button onclick="showScreen('stopwatch')" title="Cronômetro">⏱️</button>
-  <button onclick="showScreen('pomodoro')" title="Pomodoro">🍅</button>
-  <button onclick="toggleFullscreen()" title="Tela cheia">⛶</button>
-</div>
+<aside class="sidebar">
+  <button onclick="showScreen('clock')">🕒</button>
+  <button onclick="showScreen('alarm')">⏰</button>
+  <button onclick="showScreen('stopwatch')">⏱️</button>
+  <button onclick="showScreen('pomodoro')">🍅</button>
+</aside>
 
 <main class="container">
 <section id="clock" class="screen active">
   <div class="system">ZENITH PRECISION SYSTEM</div>
   <div class="clock">
     <span id="hours">00</span>:<span id="minutes">00</span>
-    <span class="sec"><span id="seconds">00</span><small>SEC</small></span>
+    <span class="sec"><span id="seconds">00</span></span>
   </div>
   <div id="date" class="date"></div>
 </section>
 
-<section id="alarm" class="screen">
-  <h2>Alarmes</h2>
-  <input type="time" id="alarmTime">
-  <button onclick="setAlarm()">Adicionar</button>
-  <ul id="alarmList"></ul>
-</section>
-
-<section id="stopwatch" class="screen">
-  <h2>Cronômetro</h2>
-  <div id="stopwatchDisplay">00:00:00</div>
-  <button onclick="startStopwatch()">Iniciar</button>
-  <button onclick="stopStopwatch()">Parar</button>
-  <button onclick="resetStopwatch()">Zerar</button>
-</section>
-
 <section id="pomodoro" class="screen">
   <h2>Pomodoro</h2>
-  <div id="pomodoroDisplay">25:00</div>
-  <button onclick="startPomodoro()">Iniciar</button>
-  <button onclick="resetPomodoro()">Resetar</button>
+  <div id="pomodoroTime" class="pomodoro-time">25:00</div>
+  <div class="controls">
+    <button onclick="startPomodoro()">Iniciar</button>
+    <button onclick="pausePomodoro()">Pausar</button>
+    <button onclick="resetPomodoro()">Resetar</button>
+  </div>
+  <p id="pomodoroStatus">Foco</p>
 </section>
 
 <footer class="footer">
-  <span>GLOBAL SYNC · UTC -3</span>
-  <span>VERSION 1.3.0-stable</span>
+  <span>UTC -3</span>
+  <span>v2.0</span>
 </footer>
 </main>
-
-<audio id="alarmSound"></audio>
 
 <script src="script.js"></script>
 </body>
 </html>
-<div class="preview-toolbar">
-    <label>VIEW MODE:</label>
-    <select id="deviceSelect">
-        <option value="100%">Desktop (Full)</option>
-        <option value="768px">Tablet View</option>
-        <option value="375px">Mobile View</option>
-    </select>
-</div>
-
-<div id="app-canvas">
-    <div id="date-display" class="highlight-date">--/--/----</div>
-
-    <div class="world-sync-grid">
-        <div class="fuso-card">
-            <span class="fuso-label">LONDON</span>
-            <div id="fuso-london" class="fuso-time">00:00</div>
-        </div>
-        <div class="fuso-card">
-            <span class="fuso-label">NEW YORK</span>
-            <div id="fuso-ny" class="fuso-time">00:00</div>
-        </div>
-        <div class="fuso-card">
-            <span class="fuso-label">TOKYO</span>
-            <div id="fuso-tokyo" class="fuso-time">00:00</div>
-        </div>
-    </div>
-<section class="control-panel">
-    <div class="calendar-box">
-        <input type="date" id="calendar-input" class="custom-input">
-        <p id="display-full-date" class="highlight-date"></p>
-    </div>
-
-    <div class="alarm-settings">
-        <div class="alarm-controls">
-            <button onclick="adjustAlarm(-1)" class="btn-adjust">-</button>
-            <input type="time" id="alarm-time" class="custom-input">
-            <button onclick="adjustAlarm(1)" class="btn-adjust">+</button>
-        </div>
-        <button id="add-alarm-btn" class="btn-pro">ADICIONAR ALARME</button>
-    </div>
-
