@@ -31,41 +31,15 @@
   <button onclick="setAlarm()">Ativar alarme</button>
   <p id="alarmStatus">Nenhum alarme definido</p>
 </section>
-</section>
-   <div class="aura-bg"></div>
-  </div>
-  <div id="root">
-    <div class="bg-[#0a0a0a] border border-white/5 rounded-[40px] p-12 flex flex-col items-center">
-  <div class="flex items-baseline font-mono font-bold">
-    <span class="text-8xl text-white">00:00</span>
-    <span class="text-4xl text-indigo-400">.00</span>
-  </div>
-  <p class="text-gray-500 tracking-[0.3em] uppercase text-xs mt-4">Cronometragem de Precisão</p>
-</div>
-    <div class="flex flex-col md:flex-row h-screen w-screen overflow-hidden bg-black text-white">
-      <nav class="fixed bottom-0 left-0 w-full glass border-t border-white/5 md:relative md:w-20 lg:w-64 md:h-screen md:border-t-0 md:border-r flex md:flex-col items-center py-4 md:py-8 z-[100] transition-all">
-        <div class="hidden md:flex flex-col items-center mb-12">...</div>
-        <div class="flex flex-row md:flex-col w-full px-4 gap-4 md:gap-3">
-          <button class="group flex-1 md:flex-none flex flex-col lg:flex-row items-center justify-center lg:justify-start py-3 lg:px-4 rounded-xl transition-all duration-300 relative text-gray-500 hover:text-gray-300 hover:bg-white/5 border border-transparent">...</button>
-          <button class="group flex-1 md:flex-none flex flex-col lg:flex-row items-center justify-center lg:justify-start py-3 lg:px-4 rounded-xl transition-all duration-300 relative text-gray-500 hover:text-gray-300 hover:bg-white/5 border border-transparent">...</button>
-          <button class="group flex-1 md:flex-none flex flex-col lg:flex-row items-center justify-center lg:justify-start py-3 lg:px-4 rounded-xl transition-all duration-300 relative bg-indigo-500/15 text-indigo-400 neo-button-active">...</button>
-          <button class="group flex-1 md:flex-none flex flex-col lg:flex-row items-center justify-center lg:justify-start py-3 lg:px-4 rounded-xl transition-all duration-300 relative text-gray-500 hover:text-gray-300 hover:bg-white/5 border border-transparent">
-            <span class="text-xl lg:text-lg lg:mr-3 transition-transform duration-500 group-hover:scale-110"></span>
-            <span class="hidden lg:block text-[10px] font-bold uppercase tracking-widest whitespace-nowrap">Temporizador</span>
-          </button>
-          <button class="group flex-1 md:flex-none flex flex-col lg:flex-row items-center justify-center lg:justify-start py-3 lg:px-4 rounded-xl transition-all duration-300 relative text-gray-500 hover:text-gray-300 hover:bg-white/5 border border-transparent">...</button>
-        </div>
-        <div class="mt-auto hidden lg:flex flex-col gap-4 w-full px-4 mb-4">...</div>
-      </nav>
-      <main class="flex-1 relative flex flex-col items-center justify-center p-6 md:p-12 overflow-y-auto custom-scroll">...</main>
-    </div>
-  </div>
 
+<section id="stopwatch" class="screen">
+  <h2>Cronômetro</h2>
+  <div id="stopwatchTime" class="timer">00:00:00</div>
+  <button onclick="startStopwatch()">Iniciar</button>
+  <button onclick="pauseStopwatch()">Pausar</button>
+  <button onclick="resetStopwatch()">Resetar</button>
 </section>
 
-
-</div>
-  
 <section id="pomodoro" class="screen">
   <h2>Pomodoro</h2>
   <div id="pomodoroTime" class="pomodoro-time">25:00</div>
@@ -86,4 +60,3 @@
 <script src="script.js"></script>
 </body>
 </html>
-
