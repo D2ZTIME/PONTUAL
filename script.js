@@ -69,3 +69,27 @@ function startPomodoro(){
 function pausePomodoro(){clearInterval(pomodoroInterval);pomodoroInterval=null}
 function resetPomodoro(){pausePomodoro();pomodoroMode='focus';pomodoroSeconds=1500;pomodoroStatus.textContent='Foco';updatePomodoro()}
 updatePomodoro()
+
+// Exemplo de lógica para o Cronômetro
+const [tempo, setTempo] = useState(0); // tempo em milissegundos
+const [ativo, setAtivo] = useState(false);
+
+useEffect(() => {
+  let intervalo = null;
+  if (ativo) {
+    intervalo = setInterval(() => {
+      setTempo((prev) => prev + 10); // incrementa 10ms
+    }, 10);
+  } else {
+    clearInterval(intervalo);
+  }
+  return () => clearInterval(intervalo);
+}, [ativo]);
+
+// Função para formatar (00:00.00)
+const formatarTempo = () => {
+  const minutos = Math.floor((tempo / 60000) % 60).toString().padStart(2, '0');
+  const segundos = Math.floor((tempo / 1000) % 60).toString().padStart(2, '0');
+  const milisegundos = Math.floor((tempo / 10) % 100).toString().padStart(2, '0');
+  return { principal: `${minutos}:${segundos}`, milis: milisegundos };
+};
