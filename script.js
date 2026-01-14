@@ -29,21 +29,29 @@ setInterval(()=>{
  }
 },1000)
 
-/* STOPWATCH */
-let sw=0, swInt=null
-function updateStopwatch(){
- const h=String(Math.floor(sw/3600)).padStart(2,'0')
- const m=String(Math.floor((sw%3600)/60)).padStart(2,'0')
- const s=String(sw%60).padStart(2,'0')
- stopwatchTime.textContent=`${h}:${m}:${s}`
-}
-function startStopwatch(){
- if(swInt) return
- swInt=setInterval(()=>{sw++;updateStopwatch()},1000)
-}
-function pauseStopwatch(){clearInterval(swInt);swInt=null}
-function resetStopwatch(){pauseStopwatch();sw=0;updateStopwatch()}
-updateStopwatch()
+// Exemplo de lógica para o Cronômetro
+const [tempo, setTempo] = useState(0); // tempo em milissegundos
+const [ativo, setAtivo] = useState(false);
+
+useEffect(() => {
+  let intervalo = null;
+  if (ativo) {
+    intervalo = setInterval(() => {
+      setTempo((prev) => prev + 10); // incrementa 10ms
+    }, 10);
+  } else {
+    clearInterval(intervalo);
+  }
+  return () => clearInterval(intervalo);
+}, [ativo]);
+
+// Função para formatar (00:00.00)
+const formatarTempo = () => {
+  const minutos = Math.floor((tempo / 60000) % 60).toString().padStart(2, '0');
+  const segundos = Math.floor((tempo / 1000) % 60).toString().padStart(2, '0');
+  const milisegundos = Math.floor((tempo / 10) % 100).toString().padStart(2, '0');
+  return { principal: `${minutos}:${segundos}`, milis: milisegundos };
+};
 
 /* POMODORO */
 let pomodoroSeconds=1500,pomodoroInterval=null,pomodoroMode='focus'
