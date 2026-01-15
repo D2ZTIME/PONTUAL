@@ -1,160 +1,141 @@
-/* --- CONFIGURAÇÕES GERAIS E PERSISTÊNCIA --- */
-const state = {
-    currentScreen: localStorage.getItem('p_screen') || 'clock',
-    alarmTime: localStorage.getItem('p_alarm'),
-    swSeconds: 0,
-    swInterval: null,
-    pomoSeconds: 1500,
-    pomoInterval: null,
-    pomoMode: 'focus'
-};
+function showScreen(id){
 
-// Gerenciador de Áudio (Web Audio API) - Som de Alarme Nativo
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-let alarmOscillator = null;
+ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'))
 
-function playAlarmSound() {
-    if (alarmOscillator) return;
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    
-    osc.type = 'square'; // Som tipo bip eletrônico
-    osc.frequency.setValueAtTime(880, audioCtx.currentTime); // Nota Lá
-    
-    // Efeito de pulso (bi-bi-bi)
-    gain.gain.setValueAtTime(0, audioCtx.currentTime);
-    const lfo = audioCtx.createOscillator();
-    lfo.frequency.value = 4; // Velocidade do bip
-    const lfoGain = audioCtx.createGain();
-    lfoGain.gain.value = 0.5;
-    lfo.connect(lfoGain);
-    lfoGain.connect(gain.gain);
-    
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    
-    osc.start();
-    lfo.start();
-    alarmOscillator = { osc, lfo };
+ document.getElementById(id).classList.add('active')
+
 }
 
-function stopAlarmSound() {
-    if (alarmOscillator) {
-        alarmOscillator.osc.stop();
-        alarmOscillator.lfo.stop();
-        alarmOscillator = null;
-    }
+
+
+/* CLOCK */
+
+function updateClock(){
+
+ const n=new Date()
+
+ hours.textContent=String(n.getHours()).padStart(2,'0')
+
+ minutes.textContent=String(n.getMinutes()).padStart(2,'0')
+
+ seconds.textContent=String(n.getSeconds()).padStart(2,'0')
+
+ date.textContent=n.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'})
+
 }
 
-/* --- NAVEGAÇÃO --- */
-function showScreen(id) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    const target = document.getElementById(id);
-    if (target) target.classList.add('active');
-    state.currentScreen = id;
-    localStorage.setItem('p_screen', id);
+setInterval(updateClock,1000);updateClock()
+
+
+
+/* ALARM */
+
+let alarmTime=null
+
+function setAlarm(){
+
+ alarmTime=document.getElementById('alarmTime').value
+
+ alarmStatus.textContent='Alarme definido para '+alarmTime
+
 }
 
-/* --- RELÓGIO (ZENITH SYSTEM) --- */
-function updateClock() {
-    const n = new Date();
-    document.getElementById('hours').textContent = String(n.getHours()).padStart(2, '0');
-    document.getElementById('minutes').textContent = String(n.getMinutes()).padStart(2, '0');
-    document.getElementById('seconds').textContent = String(n.getSeconds()).padStart(2, '0');
-    document.getElementById('date').textContent = n.toLocaleDateString('pt-BR', {
-        weekday: 'long', day: 'numeric', month: 'long'
-    });
-}
-setInterval(updateClock, 1000);
+setInterval(()=>{
 
-/* --- ALARME AVANÇADO --- */
-function setAlarm() {
-    const input = document.getElementById('alarmTime').value;
-    if (!input) return;
-    state.alarmTime = input;
-    localStorage.setItem('p_alarm', input);
-    document.getElementById('alarmStatus').textContent = `Alarme ativo: ${input}`;
-}
+ if(!alarmTime) return
 
-function stopAlarm() {
-    stopAlarmSound();
-    state.alarmTime = null;
-    localStorage.removeItem('p_alarm');
-    document.getElementById('alarmStatus').textContent = 'Nenhum alarme definido';
-    // Esconder botões de controle de toque se houver
-}
+ const n=new Date()
 
-setInterval(() => {
-    if (!state.alarmTime) return;
-    const n = new Date();
-    const now = String(n.getHours()).padStart(2, '0') + ':' + String(n.getMinutes()).padStart(2, '0');
-    if (now === state.alarmTime) {
-        playAlarmSound();
-        // Aqui você pode disparar um modal visual ou mudar a cor da tela
-    }
-}, 1000);
+ const now=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')
 
-/* --- CRONÔMETRO PROFISSIONAL --- */
-function updateStopwatch() {
-    const h = String(Math.floor(state.swSeconds / 3600)).padStart(2, '0');
-    const m = String(Math.floor((state.swSeconds % 3600) / 60)).padStart(2, '0');
-    const s = String(state.swSeconds % 60).padStart(2, '0');
-    document.getElementById('stopwatchTime').textContent = `${h}:${m}:${s}`;
+ if(now===alarmTime){
+
+  alert('⏰ Alarme!')
+
+  alarmTime=null
+
+ }
+
+},1000)
+
+
+
+/* STOPWATCH */
+
+let sw=0, swInt=null
+
+function updateStopwatch(){
+
+ const h=String(Math.floor(sw/3600)).padStart(2,'0')
+
+ const m=String(Math.floor((sw%3600)/60)).padStart(2,'0')
+
+ const s=String(sw%60).padStart(2,'0')
+
+ stopwatchTime.textContent=`${h}:${m}:${s}`
+
 }
 
-function startStopwatch() {
-    if (state.swInterval) return;
-    state.swInterval = setInterval(() => {
-        state.swSeconds++;
-        updateStopwatch();
-    }, 1000);
+function startStopwatch(){
+
+ if(swInt) return
+
+ swInt=setInterval(()=>{sw++;updateStopwatch()},1000)
+
 }
 
-function pauseStopwatch() {
-    clearInterval(state.swInterval);
-    state.swInterval = null;
+function pauseStopwatch(){clearInterval(swInt);swInt=null}
+
+function resetStopwatch(){pauseStopwatch();sw=0;updateStopwatch()}
+
+updateStopwatch()
+
+
+
+/* POMODORO */
+
+let pomodoroSeconds=1500,pomodoroInterval=null,pomodoroMode='focus'
+
+function updatePomodoro(){
+
+ const m=String(Math.floor(pomodoroSeconds/60)).padStart(2,'0')
+
+ const s=String(pomodoroSeconds%60).padStart(2,'0')
+
+ pomodoroTime.textContent=`${m}:${s}`
+
 }
 
-function resetStopwatch() {
-    pauseStopwatch();
-    state.swSeconds = 0;
-    updateStopwatch();
+function startPomodoro(){
+
+ if(pomodoroInterval) return
+
+ pomodoroInterval=setInterval(()=>{
+
+  pomodoroSeconds--
+
+  if(pomodoroSeconds<=0){
+
+   if(pomodoroMode==='focus'){
+
+    pomodoroMode='break';pomodoroSeconds=300;pomodoroStatus.textContent='Pausa'
+
+   }else{
+
+    pomodoroMode='focus';pomodoroSeconds=1500;pomodoroStatus.textContent='Foco'
+
+   }
+
+  }
+
+  updatePomodoro()
+
+ },1000)
+
 }
 
-/* --- POMODORO CONFIGURÁVEL --- */
-function updatePomodoro() {
-    const m = String(Math.floor(state.pomoSeconds / 60)).padStart(2, '0');
-    const s = String(state.pomoSeconds % 60).padStart(2, '0');
-    document.getElementById('pomodoroTime').textContent = `${m}:${s}`;
-}
+function pausePomodoro(){clearInterval(pomodoroInterval);pomodoroInterval=null}
 
-function startPomodoro() {
-    if (state.pomoInterval) return;
-    state.pomoInterval = setInterval(() => {
-        state.pomoSeconds--;
-        if (state.pomoSeconds <= 0) {
-            playAlarmSound(); // Alerta o fim do ciclo
-            setTimeout(stopAlarmSound, 3000); // Para o som após 3s
-            if (state.pomoMode === 'focus') {
-                state.pomoMode = 'break';
-                state.pomoSeconds = 300;
-                document.getElementById('pomodoroStatus').textContent = 'Pausa';
-            } else {
-                state.pomoMode = 'focus';
-                state.pomoSeconds = 1500;
-                document.getElementById('pomodoroStatus').textContent = 'Foco';
-            }
-        }
-        updatePomodoro();
-    }, 1000);
-}
+function resetPomodoro(){pausePomodoro();pomodoroMode='focus';pomodoroSeconds=1500;pomodoroStatus.textContent='Foco';updatePomodoro()}
 
-// Inicialização ao carregar a página
-window.onload = () => {
-    showScreen(state.currentScreen);
-    updateClock();
-    if (state.alarmTime) {
-        document.getElementById('alarmTime').value = state.alarmTime;
-        document.getElementById('alarmStatus').textContent = `Alarme ativo: ${state.alarmTime}`;
-    }
-};
+updatePomodoro()
