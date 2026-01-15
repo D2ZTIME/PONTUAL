@@ -2,60 +2,46 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>PONTUAL — Precision Time</title>
+<title>PONTUAL — Zenith Precision System</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<aside class="sidebar">
-  <button onclick="showScreen('clock')">🕒</button>
-  <button onclick="showScreen('alarm')">⏰</button>
-  <button onclick="showScreen('stopwatch')">⏱️</button>
-  <button onclick="showScreen('pomodoro')">🍅</button>
-</aside>
+<nav class="nav">
+  <button onclick="openTab('clock')">Relógio</button>
+  <button onclick="openTab('alarm')">Alarme</button>
+  <button onclick="openTab('chrono')">Cronômetro</button>
+  <button onclick="openTab('pomodoro')">Pomodoro</button>
+</nav>
 
-<main class="container">
-<section id="clock" class="screen active">
-  <div class="system">ZENITH PRECISION SYSTEM</div>
-  <div class="clock">
-    <span id="hours">00</span>:<span id="minutes">00</span>
-    <span class="sec"><span id="seconds">00</span></span>
-  </div>
-  <div id="date" class="date"></div>
+<section id="clock" class="tab active">
+  <h1 id="time"></h1>
 </section>
 
-<section id="alarm" class="screen">
+<section id="alarm" class="tab">
   <h2>Alarme</h2>
   <input type="time" id="alarmTime">
-  <button onclick="setAlarm()">Ativar alarme</button>
-  <p id="alarmStatus">Nenhum alarme definido</p>
+  <button onclick="setAlarm()">Ativar</button>
+  <button onclick="stopAlarm()">Parar</button>
+  <p id="alarmStatus"></p>
 </section>
 
-<section id="stopwatch" class="screen">
+<section id="chrono" class="tab">
   <h2>Cronômetro</h2>
-  <div id="stopwatchTime" class="timer">00:00:00</div>
-  <button onclick="startStopwatch()">Iniciar</button>
-  <button onclick="pauseStopwatch()">Pausar</button>
-  <button onclick="resetStopwatch()">Resetar</button>
+  <h3 id="chronoTime">00:00:00</h3>
+  <button onclick="startChrono()">Iniciar</button>
+  <button onclick="stopChrono()">Parar</button>
+  <button onclick="resetChrono()">Zerar</button>
 </section>
 
-<section id="pomodoro" class="screen">
+<section id="pomodoro" class="tab">
   <h2>Pomodoro</h2>
-  <div id="pomodoroTime" class="pomodoro-time">25:00</div>
-  <div class="controls">
-    <button onclick="startPomodoro()">Iniciar</button>
-    <button onclick="pausePomodoro()">Pausar</button>
-    <button onclick="resetPomodoro()">Resetar</button>
-  </div>
-  <p id="pomodoroStatus">Foco</p>
+  <h3 id="pomoTime">25:00</h3>
+  <button onclick="startPomodoro()">Iniciar</button>
+  <button onclick="resetPomodoro()">Resetar</button>
 </section>
-
-<footer class="footer">
-  <span>UTC -3</span>
-  <span>v2.1</span>
-</footer>
-</main>
 
 <script src="script.js"></script>
 </body>
