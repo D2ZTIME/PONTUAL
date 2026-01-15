@@ -67,3 +67,173 @@
 <script src="script.js"></script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PONTUAL - Alarme Zenith</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); }
+        .neo-button { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .neo-button:active { scale: 0.95; }
+        .aura-shadow { box-shadow: 0 0 30px rgba(99, 102, 241, 0.2); }
+    </style>
+</head>
+<body class="bg-black text-white min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-md glass border border-white/10 rounded-[40px] p-8 aura-shadow">
+        <div class="text-center mb-8">
+            <h2 class="text-xs uppercase tracking-[0.5em] text-gray-500 mb-2">Zenith Precision</h2>
+            <h1 class="text-4xl font-bold">Alarmes</h1>
+        </div>
+
+        <div class="flex justify-center gap-4 mb-10">
+            <input type="time" id="alarmTime" 
+                class="bg-transparent text-5xl font-bold text-indigo-400 focus:outline-none border-b-2 border-indigo-500/30">
+        </div>
+
+        <div id="statusMessage" class="text-center text-sm text-gray-400 mb-6 h-6">
+            Defina um horário para ativar
+        </div>
+
+        <div class="grid grid-cols-1 gap-4">
+            <button id="toggleBtn" onclick="toggleAlarm()" 
+                class="neo-button bg-indigo-600 hover:bg-indigo-500 py-4 rounded-2xl font-bold uppercase tracking-widest text-sm">
+                Ativar Alarme
+            </button>
+
+            <div id="ringingControls" class="hidden grid grid-cols-2 gap-4">
+                <button onclick="snooze()" 
+                    class="neo-button bg-white/10 hover:bg-white/20 py-4 rounded-2xl font-bold uppercase tracking-widest text-sm">
+                    Soneca +5m
+                </button>
+                <button onclick="stopAlarm()" 
+                    class="neo-button bg-red-600 hover:bg-red-500 py-4 rounded-2xl font-bold uppercase tracking-widest text-sm">
+                    Parar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let alarmActive = false;
+        let alarmTime = null;
+        let audioCtx = null;
+        let oscillator = null;
+        let checkInterval = null;
+
+        // Gerador de Som Nativo (Web Audio API)
+        function startBeep() {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            oscillator.type = 'square'; // Som tipo "bi-bi-bi" retrô
+            oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); // Nota Lá
+            
+            // Efeito de pulso
+            gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+            gainNode.gain.setTargetAtTime(0.5, audioCtx.currentTime, 0.01);
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            
+            // Loop de intermitência
+            const lfo = audioCtx.createOscillator();
+            lfo.frequency.value = 2; // 2 beeps por segundo
+            const lfoGain = audioCtx.createGain();
+            lfoGain.gain.value = 0.5;
+            lfo.connect(lfoGain);
+            lfoGain.connect(gainNode.gain);
+            
+            oscillator.start();
+            lfo.start();
+        }
+
+        function stopBeep() {
+            if (oscillator) {
+                oscillator.stop();
+                oscillator.disconnect();
+                audioCtx.close();
+                oscillator = null;
+            }
+        }
+
+        function toggleAlarm() {
+            const input = document.getElementById('alarmTime');
+            const btn = document.getElementById('toggleBtn');
+            const status = document.getElementById('statusMessage');
+
+            if (!alarmActive) {
+                if (!input.value) return alert("Defina um horário!");
+                
+                alarmTime = input.value;
+                alarmActive = true;
+                btn.innerText = "Desativar";
+                btn.classList.replace('bg-indigo-600', 'bg-white/10');
+                status.innerText = `Alarme definido para ${alarmTime}`;
+                
+                startCheck();
+            } else {
+                resetUI();
+            }
+        }
+
+        function startCheck() {
+            checkInterval = setInterval(() => {
+                const now = new Date();
+                const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+                
+                if (currentTime === alarmTime) {
+                    triggerAlarm();
+                }
+            }, 1000);
+        }
+
+        function triggerAlarm() {
+            clearInterval(checkInterval);
+            startBeep();
+            document.getElementById('toggleBtn').classList.add('hidden');
+            document.getElementById('ringingControls').classList.remove('hidden');
+            document.getElementById('statusMessage').innerText = "HORA DE ACORDAR!";
+            document.getElementById('statusMessage').classList.add('animate-bounce', 'text-indigo-400');
+        }
+
+        function stopAlarm() {
+            stopBeep();
+            resetUI();
+        }
+
+        function snooze() {
+            stopBeep();
+            const [h, m] = alarmTime.split(':').map(Number);
+            let newM = m + 5;
+            let newH = h;
+            if (newM >= 60) { newM -= 60; newH = (newH + 1) % 24; }
+            
+            alarmTime = `${String(newH).padStart(2, '0')}:${String(newM).padStart(2, '0')}`;
+            document.getElementById('alarmTime').value = alarmTime;
+            
+            document.getElementById('ringingControls').classList.add('hidden');
+            document.getElementById('toggleBtn').classList.remove('hidden');
+            document.getElementById('statusMessage').innerText = `Soneca ativa: ${alarmTime}`;
+            document.getElementById('statusMessage').classList.remove('animate-bounce');
+            startCheck();
+        }
+
+        function resetUI() {
+            alarmActive = false;
+            clearInterval(checkInterval);
+            stopBeep();
+            document.getElementById('toggleBtn').innerText = "Ativar Alarme";
+            document.getElementById('toggleBtn').classList.remove('hidden');
+            document.getElementById('toggleBtn').classList.replace('bg-white/10', 'bg-indigo-600');
+            document.getElementById('ringingControls').classList.add('hidden');
+            document.getElementById('statusMessage').innerText = "Defina um horário para ativar";
+            document.getElementById('statusMessage').classList.remove('animate-bounce', 'text-indigo-400');
+        }
+    </script>
+</body>
+</html>
