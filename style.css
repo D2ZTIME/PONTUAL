@@ -1,107 +1,36 @@
-:root {
-    --indigo-primary: #6d5cff;
-    --bg-dark: #000;
-    --card-bg: #0b0b0b;
-    --transition-speed: 0.4s;
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:#000;color:#fff;display:flex;min-height:100vh}
+
+.sidebar{
+ position:fixed;bottom:0;left:0;right:0;
+ height:64px;background:#0b0b0b;
+ display:flex;justify-content:space-around;align-items:center
+}
+.sidebar button{background:none;border:none;color:#aaa;font-size:20px}
+
+.container{
+ flex:1;padding:20px;padding-bottom:90px;
+ display:flex;flex-direction:column;justify-content:space-between
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+.clock{font-size:72px;font-weight:600}
+.sec{font-size:22px;color:#6d5cff}
+.date{margin-top:10px;color:#aaa}
 
-body { 
-    background: var(--bg-dark); 
-    color: #fff; 
-    display: flex; 
-    min-height: 100vh; 
-    overflow-x: hidden; 
+.screen{display:none}
+.screen.active{display:block}
+
+.timer,.pomodoro-time{font-size:48px;margin:20px 0}
+.controls button, section button{
+ margin-right:10px;padding:8px 14px;border-radius:8px;border:none
 }
 
-/* SIDEBAR / NAVIGATION */
-.sidebar {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    height: 70px; background: var(--card-bg);
-    display: flex; justify-content: space-around; align-items: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    z-index: 100;
-}
-
-.sidebar button { 
-    background: none; border: none; color: #555; 
-    font-size: 22px; cursor: pointer; 
-    transition: color 0.3s, transform 0.2s;
-}
-
-.sidebar button:hover { color: var(--indigo-primary); }
-.sidebar button.active { color: var(--indigo-primary); transform: scale(1.1); }
-
-/* CONTAINER PRINCIPAL */
-.container {
-    flex: 1; padding: 20px; padding-bottom: 90px;
-    display: flex; flex-direction: column;
-}
-
-/* ANIMAÇÃO DE TELA (FADE + SLIDE) */
-.screen {
-    display: none; /* Mantido para controle JS */
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    text-align: center;
-}
-
-.screen.active {
-    display: flex; /* Flex para alinhar itens centralizados */
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* RELÓGIO (ZENITH STYLE) */
-.system { font-size: 10px; letter-spacing: 0.5em; color: #444; margin-bottom: 10px; }
-.clock { font-size: clamp(80px, 15vw, 160px); font-weight: 700; tracking: -0.05em; line-height: 1; }
-.sec { font-size: 0.4em; color: var(--indigo-primary); font-weight: 500; }
-.date { margin-top: 15px; color: #888; text-transform: uppercase; letter-spacing: 0.2em; font-size: 12px; }
-
-/* ELEMENTOS DE INTERFACE */
-.timer, .pomodoro-time { 
-    font-size: clamp(60px, 10vw, 100px); 
-    font-family: 'Courier New', monospace; /* Estilo digital precision */
-    margin: 30px 0; 
-    color: #fff;
-}
-
-button {
-    cursor: pointer;
-    background: rgba(255, 255, 255, 0.05);
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 12px 24px;
-    border-radius: 12px;
-    font-weight: 600;
-    transition: all 0.3s;
-}
-
-button:hover { background: var(--indigo-primary); border-color: var(--indigo-primary); }
-
-input[type="time"] {
-    background: none; border: none; color: var(--indigo-primary);
-    font-size: 48px; font-weight: 700; text-align: center; outline: none;
-}
-
-/* FOOTER */
-.footer {
-    position: fixed; top: 20px; right: 20px;
-    display: flex; gap: 20px; color: #333; font-size: 10px; font-weight: bold;
-}
-
-/* RESPONSIVIDADE DESKTOP */
-@media(min-width: 1024px) {
-    .sidebar {
-        position: static; width: 80px; height: 100vh;
-        flex-direction: column; justify-content: center; gap: 40px;
-        border-top: none; border-right: 1px solid rgba(255, 255, 255, 0.05);
-    }
-    .container { padding: 40px; }
+@media(min-width:1024px){
+ body{flex-direction:row}
+ .sidebar{
+  position:static;width:70px;height:100vh;
+  flex-direction:column;justify-content:flex-start;padding-top:20px
+ }
+ .container{padding:40px}
+ .clock{font-size:160px}
 }

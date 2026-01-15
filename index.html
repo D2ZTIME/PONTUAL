@@ -1,193 +1,62 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PONTUAL — Zenith Precision</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        :root { --indigo-primary: #6366f1; }
-        body { background-color: black; color: white; font-family: ui-sans-serif, system-ui; overflow: hidden; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); }
-        .active-screen { display: flex !important; animation: fadeIn 0.3s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .nav-active { color: var(--indigo-primary); background: rgba(99, 102, 241, 0.1); border-right: 3px solid var(--indigo-primary); }
-        @media (max-width: 768px) {
-            .nav-active { border-right: none; border-top: 3px solid var(--indigo-primary); }
-        }
-    </style>
+<meta charset="UTF-8">
+<title>PONTUAL — Precision Time</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
 </head>
-<body class="h-screen flex flex-col md:flex-row">
+<body>
 
-    <nav class="fixed bottom-0 left-0 w-full h-20 glass flex md:relative md:w-64 md:h-full md:flex-col z-50">
-        <div class="hidden md:block p-8 font-bold text-2xl tracking-tighter text-indigo-500 italic">PONTUAL</div>
-        <div class="flex flex-1 justify-around md:flex-col md:justify-start">
-            <button onclick="switchScreen('clock')" id="nav-clock" class="flex-1 p-4 md:px-8 md:text-left transition-all">🕒 Relógio</button>
-            <button onclick="switchScreen('alarm')" id="nav-alarm" class="flex-1 p-4 md:px-8 md:text-left transition-all">⏰ Alarme</button>
-            <button onclick="switchScreen('stopwatch')" id="nav-stopwatch" class="flex-1 p-4 md:px-8 md:text-left transition-all">⏱️ Cronômetro</button>
-            <button onclick="switchScreen('pomodoro')" id="nav-pomodoro" class="flex-1 p-4 md:px-8 md:text-left transition-all">🍅 Pomodoro</button>
-        </div>
-    </nav>
+<aside class="sidebar">
+  <button onclick="showScreen('clock')">🕒</button>
+  <button onclick="showScreen('alarm')">⏰</button>
+  <button onclick="showScreen('stopwatch')">⏱️</button>
+  <button onclick="showScreen('pomodoro')">🍅</button>
+</aside>
 
-    <main class="flex-1 overflow-y-auto p-6 pb-28 md:pb-6 flex flex-col items-center justify-center">
-        
-        <section id="screen-clock" class="hidden flex-col items-center text-center space-y-2">
-            <div class="text-xs uppercase tracking-[0.5em] text-gray-500 italic">Zenith Precision System</div>
-            <div class="text-8xl md:text-9xl font-bold tracking-tighter" id="full-clock">00:00</div>
-            <div id="full-date" class="text-indigo-400 font-medium tracking-widest uppercase text-sm">Quinta, 15 de Janeiro</div>
-        </section>
+<main class="container">
+<section id="clock" class="screen active">
+  <div class="system">ZENITH PRECISION SYSTEM</div>
+  <div class="clock">
+    <span id="hours">00</span>:<span id="minutes">00</span>
+    <span class="sec"><span id="seconds">00</span></span>
+  </div>
+  <div id="date" class="date"></div>
+</section>
 
-        <section id="screen-alarm" class="hidden flex-col items-center w-full max-w-md glass p-10 rounded-[40px]">
-            <h2 class="text-xs uppercase tracking-[0.4em] text-gray-500 mb-6">Alarmes</h2>
-            <input type="time" id="alarmTimeInput" class="bg-transparent text-6xl font-bold text-indigo-400 focus:outline-none mb-4 border-b border-indigo-500/20">
-            <p id="alarmStatus" class="text-sm text-gray-500 mb-8">Nenhum alarme definido</p>
-            <button id="alarmToggleBtn" onclick="toggleAlarm()" class="w-full bg-indigo-600 py-4 rounded-2xl font-bold hover:bg-indigo-500 transition-all">ATIVAR ALARME</button>
-            <div id="alarmRingingControls" class="hidden grid grid-cols-2 gap-4 w-full mt-4">
-                <button onclick="snooze()" class="bg-white/10 py-4 rounded-2xl font-bold">SONECA</button>
-                <button onclick="stopAlarm()" class="bg-red-600 py-4 rounded-2xl font-bold">PARAR</button>
-            </div>
-        </section>
+<section id="alarm" class="screen">
+  <h2>Alarme</h2>
+  <input type="time" id="alarmTime">
+  <button onclick="setAlarm()">Ativar alarme</button>
+  <p id="alarmStatus">Nenhum alarme definido</p>
+</section>
 
-        <section id="screen-stopwatch" class="hidden flex-col items-center space-y-8">
-            <div class="text-[80px] md:text-[120px] font-bold tracking-tighter leading-none flex items-baseline">
-                <span id="sw-main">00:00</span><span class="text-indigo-500 text-4xl" id="sw-ms">.00</span>
-            </div>
-            <div class="flex gap-4">
-                <button onclick="startSW()" class="w-16 h-16 bg-green-600 rounded-full">▶</button>
-                <button onclick="pauseSW()" class="w-16 h-16 bg-white/10 rounded-full">⏸</button>
-                <button onclick="resetSW()" class="w-16 h-16 bg-white/10 rounded-full">🔄</button>
-            </div>
-        </section>
+<section id="stopwatch" class="screen">
+  <h2>Cronômetro</h2>
+  <div id="stopwatchTime" class="timer">00:00:00</div>
+  <button onclick="startStopwatch()">Iniciar</button>
+  <button onclick="pauseStopwatch()">Pausar</button>
+  <button onclick="resetStopwatch()">Resetar</button>
+</section>
 
-        <section id="screen-pomodoro" class="hidden flex-col items-center space-y-8">
-            <div class="flex gap-2">
-                <button onclick="setPomo(15)" class="px-4 py-1 glass rounded-full text-xs">15m</button>
-                <button onclick="setPomo(25)" class="px-4 py-1 glass rounded-full text-xs">25m</button>
-                <button onclick="setPomo(50)" class="px-4 py-1 glass rounded-full text-xs">50m</button>
-            </div>
-            <div class="text-9xl font-bold text-white" id="pomo-display">25:00</div>
-            <button onclick="togglePomo()" id="pomo-btn" class="px-12 py-4 bg-indigo-600 rounded-2xl font-bold tracking-widest">INICIAR FOCO</button>
-        </section>
+<section id="pomodoro" class="screen">
+  <h2>Pomodoro</h2>
+  <div id="pomodoroTime" class="pomodoro-time">25:00</div>
+  <div class="controls">
+    <button onclick="startPomodoro()">Iniciar</button>
+    <button onclick="pausePomodoro()">Pausar</button>
+    <button onclick="resetPomodoro()">Resetar</button>
+  </div>
+  <p id="pomodoroStatus">Foco</p>
+</section>
 
-    </main>
+<footer class="footer">
+  <span>UTC -3</span>
+  <span>v2.1</span>
+</footer>
+</main>
 
-    <footer class="fixed top-4 right-6 text-[10px] text-gray-600 flex flex-col items-end">
-        <span>GLOBAL SYNC UTC-3</span>
-        <span>VERSION 2.1 STABLE</span>
-    </footer>
-
-    <script>
-        // --- NAVEGAÇÃO E PERSISTÊNCIA ---
-        function switchScreen(id) {
-            document.querySelectorAll('section').forEach(s => s.classList.remove('active-screen'));
-            document.querySelectorAll('nav button').forEach(b => b.classList.remove('nav-active'));
-            document.getElementById(`screen-${id}`).classList.add('active-screen');
-            document.getElementById(`nav-${id}`).classList.add('nav-active');
-            localStorage.setItem('p_last_screen', id);
-        }
-
-        // --- RELÓGIO EM TEMPO REAL ---
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('full-clock').innerText = now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
-            const options = { weekday: 'long', day: 'numeric', month: 'long' };
-            document.getElementById('full-date').innerText = now.toLocaleDateString('pt-BR', options);
-        }
-        setInterval(updateClock, 1000);
-
-        // --- ALARME COM WEB AUDIO ---
-        let alarmTime = localStorage.getItem('p_alarm_time');
-        let isAlarmActive = !!alarmTime;
-        let audioCtx, oscillator;
-
-        function playSound() {
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            oscillator = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            oscillator.type = 'square';
-            oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
-            gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
-            oscillator.connect(gain); gain.connect(audioCtx.destination);
-            oscillator.start();
-        }
-
-        function toggleAlarm() {
-            const input = document.getElementById('alarmTimeInput');
-            if (!isAlarmActive) {
-                if (!input.value) return;
-                alarmTime = input.value;
-                localStorage.setItem('p_alarm_time', alarmTime);
-                isAlarmActive = true;
-                updateAlarmUI();
-            } else {
-                isAlarmActive = false;
-                localStorage.removeItem('p_alarm_time');
-                updateAlarmUI();
-            }
-        }
-
-        function updateAlarmUI() {
-            const status = document.getElementById('alarmStatus');
-            const btn = document.getElementById('alarmToggleBtn');
-            if (isAlarmActive) {
-                status.innerText = `Ativo para ${alarmTime}`;
-                btn.innerText = "DESATIVAR";
-                btn.classList.replace('bg-indigo-600', 'bg-white/10');
-            } else {
-                status.innerText = "Nenhum alarme definido";
-                btn.innerText = "ATIVAR ALARME";
-                btn.classList.replace('bg-white/10', 'bg-indigo-600');
-            }
-        }
-
-        setInterval(() => {
-            if (isAlarmActive) {
-                const now = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
-                if (now === alarmTime) {
-                    playSound();
-                    document.getElementById('alarmToggleBtn').classList.add('hidden');
-                    document.getElementById('alarmRingingControls').classList.remove('hidden');
-                    isAlarmActive = false;
-                }
-            }
-        }, 1000);
-
-        function stopAlarm() {
-            if (oscillator) oscillator.stop();
-            document.getElementById('alarmToggleBtn').classList.remove('hidden');
-            document.getElementById('alarmRingingControls').classList.add('hidden');
-            localStorage.removeItem('p_alarm_time');
-            updateAlarmUI();
-        }
-
-        // --- CRONÔMETRO ---
-        let swStartTime, swInterval, swElapsed = 0;
-        function updateSW() {
-            const d = new Date(swElapsed);
-            const m = String(d.getUTCMinutes()).padStart(2, '0');
-            const s = String(d.getUTCSeconds()).padStart(2, '0');
-            const ms = String(Math.floor(d.getUTCMilliseconds()/10)).padStart(2, '0');
-            document.getElementById('sw-main').innerText = `${m}:${s}`;
-            document.getElementById('sw-ms').innerText = `.${ms}`;
-        }
-        function startSW() {
-            swStartTime = Date.now() - swElapsed;
-            swInterval = setInterval(() => {
-                swElapsed = Date.now() - swStartTime;
-                updateSW();
-            }, 50);
-        }
-        function pauseSW() { clearInterval(swInterval); }
-        function resetSW() { pauseSW(); swElapsed = 0; updateSW(); }
-
-        // --- INICIALIZAÇÃO ---
-        window.onload = () => {
-            const last = localStorage.getItem('p_last_screen') || 'clock';
-            switchScreen(last);
-            updateClock();
-            updateAlarmUI();
-            if(alarmTime) document.getElementById('alarmTimeInput').value = alarmTime;
-        };
-    </script>
+<script src="script.js"></script>
 </body>
 </html>
