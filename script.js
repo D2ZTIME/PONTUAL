@@ -69,3 +69,18 @@ function startPomodoro(){
 function pausePomodoro(){clearInterval(pomodoroInterval);pomodoroInterval=null}
 function resetPomodoro(){pausePomodoro();pomodoroMode='focus';pomodoroSeconds=1500;pomodoroStatus.textContent='Foco';updatePomodoro()}
 updatePomodoro()
+function showScreen(id) {
+    const screens = document.querySelectorAll('.screen');
+    screens.forEach(s => {
+        s.classList.remove('active');
+        s.style.display = 'none'; // Garante o reset
+    });
+
+    const activeScreen = document.getElementById(id);
+    activeScreen.style.display = 'flex'; // Primeiro ativa o display
+    
+    // Pequeno timeout para o navegador processar o display e animar a opacidade
+    setTimeout(() => {
+        activeScreen.classList.add('active');
+    }, 10);
+}
