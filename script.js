@@ -41,9 +41,7 @@ function startPomo(){
  if(pi)return;
  pi=setInterval(()=>{
  pomo--;
-  function stopPomo(){clearInterval(swI);swI=null;}
-function resetPomo(){stopPomo();ms=0;document.getElementById('sw').textContent="0.000";}
- pomoDisplay=Math.floor(pomo/60)+":"+String(pomo%60).padStart(2,'0');
+  pomoDisplay=Math.floor(pomo/60)+":"+String(pomo%60).padStart(2,'0');
  document.getElementById("pomo").textContent=pomoDisplay;
  if(pomo<=0){clearInterval(pi);alert("Pomodoro finalizado");}
  },1000);
