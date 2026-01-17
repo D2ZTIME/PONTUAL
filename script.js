@@ -1,42 +1,48 @@
 
+function showTab(id){
+ document.querySelectorAll('.tab').forEach(t=>t.classList.add('hidden'));
+ document.getElementById(id).classList.remove('hidden');
+}
+
 function updateClock(){
- const d=new Date();
- document.getElementById('time').textContent=d.toLocaleTimeString();
- document.getElementById('sp').textContent=d.toLocaleTimeString('pt-BR',{timeZone:'America/Sao_Paulo'});
- document.getElementById('ny').textContent=d.toLocaleTimeString('en-US',{timeZone:'America/New_York'});
- document.getElementById('ld').textContent=d.toLocaleTimeString('en-GB',{timeZone:'Europe/London'});
- document.getElementById('pa').textContent=d.toLocaleTimeString('fr-FR',{timeZone:'Europe/Paris'});
- document.getElementById('tk').textContent=d.toLocaleTimeString('ja-JP',{timeZone:'Asia/Tokyo'});
- document.getElementById('sy').textContent=d.toLocaleTimeString('en-AU',{timeZone:'Australia/Sydney'});
+ document.getElementById('time').textContent=new Date().toLocaleTimeString();
 }
 setInterval(updateClock,1000);updateClock();
 
-let swInt=null,ms=0;
-function startSW(){if(swInt)return;swInt=setInterval(()=>{ms+=10;renderSW();},10);}
-function stopSW(){clearInterval(swInt);swInt=null;}
-function resetSW(){stopSW();ms=0;renderSW();}
-function renderSW(){
- let s=Math.floor(ms/1000);
- let mi=ms%1000;
- document.getElementById('sw').textContent=s+"."+String(mi).padStart(3,'0');
-}
+let swI=null,ms=0;
+function startSW(){if(swI)return;swI=setInterval(()=>{ms+=10;document.getElementById('sw').textContent=(ms/1000).toFixed(3)},10);}
+function stopSW(){clearInterval(swI);swI=null;}
+function resetSW(){stopSW();ms=0;document.getElementById('sw').textContent="0.000";}
 
-let alarms=[];
-function addAlarm(){
- if(alarms.length>=6)return alert("Máx. 6 alarmes");
- const t=prompt("Informe hora e dia (ex: 07:30 Seg)");
- if(t){alarms.push(t);renderAlarms();}
+let alarms=JSON.parse(localStorage.getItem("alarms")||"[]");
+function saveAlarm(){
+ if(alarms.length>=6)return alert("Máx 6 alarmes");
+ const t=alarmTime.value,d=alarmDay.value;
+ alarms.push({t,d});
+ localStorage.setItem("alarms",JSON.stringify(alarms));
+ renderAlarms();
 }
 function renderAlarms(){
- document.getElementById('alarmsList').innerHTML=alarms.map(a=>"<div>"+a+"</div>").join("");
+ alarmList.innerHTML="";
+ alarms.forEach(a=>alarmList.innerHTML+=`<li>${a.t} - ${a.d}</li>`);
 }
+renderAlarms();
 
-let pomo=1500,pInt=null;
+setInterval(()=>{
+ const now=new Date();
+ const cur=now.toTimeString().slice(0,5);
+ alarms.forEach(a=>{
+  if(a.t===cur){document.getElementById("alarmSound").play();}
+ });
+},60000);
+
+let pomo=1500,pi=null;
 function startPomo(){
- if(pInt)return;
- pInt=setInterval(()=>{
+ if(pi)return;
+ pi=setInterval(()=>{
  pomo--;
- document.getElementById('pomo').textContent=Math.floor(pomo/60)+":"+String(pomo%60).padStart(2,'0');
- if(pomo<=0){clearInterval(pInt);alert("Pomodoro concluído");}
+ pomoDisplay=Math.floor(pomo/60)+":"+String(pomo%60).padStart(2,'0');
+ document.getElementById("pomo").textContent=pomoDisplay;
+ if(pomo<=0){clearInterval(pi);alert("Pomodoro finalizado");}
  },1000);
 }

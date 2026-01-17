@@ -3,50 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PONTUAL v3.1</title>
+<title>PONTUAL v4.0</title>
+<link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>PONTUAL</h1>
 
-<section>
-<h2>Relógio Principal</h2>
+<div class="app">
+<nav class="sidebar">
+<button onclick="showTab('clock')">🕒</button>
+<button onclick="showTab('alarms')">🔔</button>
+<button onclick="showTab('stopwatch')">⏱️</button>
+<button onclick="showTab('pomodoro')">🍅</button>
+<button onclick="showTab('weather')">🌦️</button>
+</nav>
+
+<main>
+<section id="clock" class="tab">
+<h2>Relógio</h2>
 <div id="time"></div>
 </section>
 
-<section>
-<h2>Fusos Horários</h2>
-<ul>
-<li>São Paulo 🇧🇷 <span id="sp"></span></li>
-<li>Nova York 🇺🇸 <span id="ny"></span></li>
-<li>Londres 🇬🇧 <span id="ld"></span></li>
-<li>Paris 🇫🇷 <span id="pa"></span></li>
-<li>Tóquio 🇯🇵 <span id="tk"></span></li>
-<li>Sydney 🇦🇺 <span id="sy"></span></li>
-</ul>
+<section id="alarms" class="tab hidden">
+<h2>Alarmes</h2>
+<input type="time" id="alarmTime">
+<select id="alarmDay">
+<option>Seg</option><option>Ter</option><option>Qua</option>
+<option>Qui</option><option>Sex</option><option>Sab</option><option>Dom</option>
+</select>
+<button onclick="saveAlarm()">Salvar</button>
+<ul id="alarmList"></ul>
 </section>
 
-<section>
-<h2>Alarmes (até 6)</h2>
-<div id="alarmsList"></div>
-<button onclick="addAlarm()">Adicionar Alarme</button>
-</section>
-
-<section>
+<section id="stopwatch" class="tab hidden">
 <h2>Cronômetro</h2>
-<div id="sw">00:00.000</div>
+<div id="sw">0.000</div>
 <button onclick="startSW()">Start</button>
 <button onclick="stopSW()">Stop</button>
 <button onclick="resetSW()">Reset</button>
 </section>
 
-<section>
+<section id="pomodoro" class="tab hidden">
 <h2>Pomodoro</h2>
-<p>A técnica Pomodoro melhora o foco usando ciclos de 25 minutos de trabalho e 5 minutos de pausa.</p>
+<p>Técnica de foco com ciclos de 25min trabalho + 5min pausa.</p>
 <div id="pomo">25:00</div>
 <button onclick="startPomo()">Iniciar</button>
 </section>
 
+<section id="weather" class="tab hidden">
+<h2>Clima</h2>
+<p>(API pronta para integração)</p>
+<div id="weatherBox">Cidade padrão: São Paulo</div>
+</section>
+</main>
+</div>
+
+<audio id="alarmSound" src="alarm.mp3"></audio>
 <script src="script.js"></script>
 </body>
 </html>
