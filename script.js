@@ -1,42 +1,42 @@
-function openTab(id){
- document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'))
- document.getElementById(id).classList.add('active')
+
+function updateClock(){
+ const d=new Date();
+ document.getElementById('time').textContent=d.toLocaleTimeString();
+ document.getElementById('sp').textContent=d.toLocaleTimeString('pt-BR',{timeZone:'America/Sao_Paulo'});
+ document.getElementById('ny').textContent=d.toLocaleTimeString('en-US',{timeZone:'America/New_York'});
+ document.getElementById('ld').textContent=d.toLocaleTimeString('en-GB',{timeZone:'Europe/London'});
+ document.getElementById('pa').textContent=d.toLocaleTimeString('fr-FR',{timeZone:'Europe/Paris'});
+ document.getElementById('tk').textContent=d.toLocaleTimeString('ja-JP',{timeZone:'Asia/Tokyo'});
+ document.getElementById('sy').textContent=d.toLocaleTimeString('en-AU',{timeZone:'Australia/Sydney'});
+}
+setInterval(updateClock,1000);updateClock();
+
+let swInt=null,ms=0;
+function startSW(){if(swInt)return;swInt=setInterval(()=>{ms+=10;renderSW();},10);}
+function stopSW(){clearInterval(swInt);swInt=null;}
+function resetSW(){stopSW();ms=0;renderSW();}
+function renderSW(){
+ let s=Math.floor(ms/1000);
+ let mi=ms%1000;
+ document.getElementById('sw').textContent=s+"."+String(mi).padStart(3,'0');
 }
 
-setInterval(()=>{
- time.textContent=new Date().toLocaleTimeString()
-},1000)
-
-let alarm=null
-function setAlarm(){alarm=alarmTime.value;alarmStatus.textContent='Alarme definido'}
-function stopAlarm(){alarm=null;alarmStatus.textContent='Alarme parado'}
-
-setInterval(()=>{
- if(!alarm) return
- const n=new Date().toLocaleTimeString().slice(0,5)
- if(n===alarm) alert('⏰ Alarme!')
-},1000)
-
-let c=0,ct=null
-function startChrono(){
- if(ct) return
- ct=setInterval(()=>{
-  c++
-  chronoTime.textContent=new Date(c*1000).toISOString().substr(11,8)
- },1000)
+let alarms=[];
+function addAlarm(){
+ if(alarms.length>=6)return alert("Máx. 6 alarmes");
+ const t=prompt("Informe hora e dia (ex: 07:30 Seg)");
+ if(t){alarms.push(t);renderAlarms();}
 }
-function stopChrono(){clearInterval(ct);ct=null}
-function resetChrono(){stopChrono();c=0;chronoTime.textContent='00:00:00'}
-
-let p=1500,pt=null
-function startPomodoro(){
- if(pt) return
- pt=setInterval(()=>{
-  if(p<=0){clearInterval(pt);alert('⏱ Pausa!');return}
-  p--
-  const m=String(Math.floor(p/60)).padStart(2,'0')
-  const s=String(p%60).padStart(2,'0')
-  pomoTime.textContent=`${m}:${s}`
- },1000)
+function renderAlarms(){
+ document.getElementById('alarmsList').innerHTML=alarms.map(a=>"<div>"+a+"</div>").join("");
 }
-function resetPomodoro(){clearInterval(pt);pt=null;p=1500;pomoTime.textContent='25:00'}
+
+let pomo=1500,pInt=null;
+function startPomo(){
+ if(pInt)return;
+ pInt=setInterval(()=>{
+ pomo--;
+ document.getElementById('pomo').textContent=Math.floor(pomo/60)+":"+String(pomo%60).padStart(2,'0');
+ if(pomo<=0){clearInterval(pInt);alert("Pomodoro concluído");}
+ },1000);
+}

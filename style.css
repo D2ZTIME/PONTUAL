@@ -1,6 +1,6 @@
-body{margin:0;font-family:system-ui;background:#000;color:#fff}
-.nav{display:flex;justify-content:space-around;background:#111;padding:10px}
-button{padding:10px 14px;border:none;border-radius:10px}
-.tab{display:none;text-align:center;padding:30px}
-.tab.active{display:block}
-h1{font-size:4rem}
+
+body{font-family:Arial;background:#0f172a;color:#fff;padding:20px}
+h1,h2{font-size:1.6rem}
+#time,#sw,#pomo{font-size:2.4rem;margin:10px 0}
+section{margin-bottom:24px}
+button{padding:8px 14px;border-radius:6px;border:none}

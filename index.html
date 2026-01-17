@@ -2,45 +2,49 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>PONTUAL — Zenith Precision System</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="manifest" href="manifest.json">
+<title>PONTUAL v3.1</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<h1>PONTUAL</h1>
 
-<nav class="nav">
-  <button onclick="openTab('clock')">Relógio</button>
-  <button onclick="openTab('alarm')">Alarme</button>
-  <button onclick="openTab('chrono')">Cronômetro</button>
-  <button onclick="openTab('pomodoro')">Pomodoro</button>
-</nav>
-
-<section id="clock" class="tab active">
-  <h1 id="time"></h1>
+<section>
+<h2>Relógio Principal</h2>
+<div id="time"></div>
 </section>
 
-<section id="alarm" class="tab">
-  <h2>Alarme</h2>
-  <input type="time" id="alarmTime">
-  <button onclick="setAlarm()">Ativar</button>
-  <button onclick="stopAlarm()">Parar</button>
-  <p id="alarmStatus"></p>
+<section>
+<h2>Fusos Horários</h2>
+<ul>
+<li>São Paulo 🇧🇷 <span id="sp"></span></li>
+<li>Nova York 🇺🇸 <span id="ny"></span></li>
+<li>Londres 🇬🇧 <span id="ld"></span></li>
+<li>Paris 🇫🇷 <span id="pa"></span></li>
+<li>Tóquio 🇯🇵 <span id="tk"></span></li>
+<li>Sydney 🇦🇺 <span id="sy"></span></li>
+</ul>
 </section>
 
-<section id="chrono" class="tab">
-  <h2>Cronômetro</h2>
-  <h3 id="chronoTime">00:00:00</h3>
-  <button onclick="startChrono()">Iniciar</button>
-  <button onclick="stopChrono()">Parar</button>
-  <button onclick="resetChrono()">Zerar</button>
+<section>
+<h2>Alarmes (até 6)</h2>
+<div id="alarmsList"></div>
+<button onclick="addAlarm()">Adicionar Alarme</button>
 </section>
 
-<section id="pomodoro" class="tab">
-  <h2>Pomodoro</h2>
-  <h3 id="pomoTime">25:00</h3>
-  <button onclick="startPomodoro()">Iniciar</button>
-  <button onclick="resetPomodoro()">Resetar</button>
+<section>
+<h2>Cronômetro</h2>
+<div id="sw">00:00.000</div>
+<button onclick="startSW()">Start</button>
+<button onclick="stopSW()">Stop</button>
+<button onclick="resetSW()">Reset</button>
+</section>
+
+<section>
+<h2>Pomodoro</h2>
+<p>A técnica Pomodoro melhora o foco usando ciclos de 25 minutos de trabalho e 5 minutos de pausa.</p>
+<div id="pomo">25:00</div>
+<button onclick="startPomo()">Iniciar</button>
 </section>
 
 <script src="script.js"></script>
