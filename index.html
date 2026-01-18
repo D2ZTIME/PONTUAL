@@ -3,12 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PONTUAL v4.0</title>
+<title>PONTUAL v4.2</title>
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
 <div class="app">
 <nav class="sidebar">
 <button onclick="showTab('clock')">🕒</button>
@@ -17,18 +16,27 @@
 <button onclick="showTab('pomodoro')">🍅</button>
 <button onclick="showTab('weather')">🌦️</button>
 </nav>
-
 <main>
+
 <section id="clock" class="tab">
 <h2>Relógio</h2>
-<div id="time"></div>
+<div id="time" class="big"></div>
+<h3>Fusos Horários</h3>
+<ul class="world">
+<li>São Paulo 🇧🇷 <span id="sp"></span></li>
+<li>Nova York 🇺🇸 <span id="ny"></span></li>
+<li>Londres 🇬🇧 <span id="ld"></span></li>
+<li>Paris 🇫🇷 <span id="pa"></span></li>
+<li>Tóquio 🇯🇵 <span id="tk"></span></li>
+<li>Sydney 🇦🇺 <span id="sy"></span></li>
+</ul>
 </section>
 
 <section id="alarms" class="tab hidden">
 <h2>Alarmes</h2>
 <input type="time" id="alarmTime">
 <select id="alarmDay">
-<option>Seg</option><option>Ter</option><option>Qua</option>
+<option>Todos</option><option>Seg</option><option>Ter</option><option>Qua</option>
 <option>Qui</option><option>Sex</option><option>Sab</option><option>Dom</option>
 </select>
 <button onclick="saveAlarm()">Salvar</button>
@@ -37,7 +45,7 @@
 
 <section id="stopwatch" class="tab hidden">
 <h2>Cronômetro</h2>
-<div id="sw">0.000</div>
+<div id="sw" class="big">0.000</div>
 <button onclick="startSW()">Start</button>
 <button onclick="stopSW()">Stop</button>
 <button onclick="resetSW()">Reset</button>
@@ -45,22 +53,31 @@
 
 <section id="pomodoro" class="tab hidden">
 <h2>Pomodoro</h2>
-<p>Técnica de foco com ciclos de 25min trabalho + 5min pausa.</p>
-<div id="pomo">25:00</div>
+<p>Técnica de foco com ciclos de trabalho e pausa.</p>
+<div id="pomo" class="big">25:00</div>
+<div class="row">
+<button onclick="setPomo(15)">15</button>
+<button onclick="setPomo(25)">25</button>
+<button onclick="setPomo(50)">50</button>
+</div>
+<div class="row">
 <button onclick="startPomo()">Iniciar</button>
-  <button onclick="stopPomo()">Stop</button>
+<button onclick="pausePomo()">Pausar</button>
 <button onclick="resetPomo()">Reset</button>
+</div>
 </section>
 
 <section id="weather" class="tab hidden">
-<h2>Clima</h2>
-<p>(API pronta para integração)</p>
-<div id="weatherBox">Cidade padrão: São Paulo</div>
+<h2>Previsão do Tempo</h2>
+<div id="weatherBox">🌤️ São Paulo - API pronta</div>
 </section>
+
 </main>
 </div>
-
-<audio id="alarmSound" src="alarm.mp3"></audio>
+<audio id="alarmSound"></audio>
 <script src="script.js"></script>
+<script>
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js');}
+</script>
 </body>
 </html>
