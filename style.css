@@ -1,0 +1,74 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui, Arial, sans-serif;
+}
+
+body {
+  background: #0f172a;
+  color: #fff;
+}
+
+.header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 16px;
+  background: #020617;
+}
+
+.logo {
+  width: 42px;
+}
+
+.menu {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  background: #020617;
+}
+
+.menu button {
+  background: transparent;
+  color: #fff;
+  border: 1px solid #334155;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.menu button:hover {
+  background: #1e293b;
+}
+
+.content {
+  padding: 20px;
+}
+
+.section {
+  display: none;
+}
+
+.section.active {
+  display: block;
+}
+
+#clockTime,
+#stopwatchTime,
+#pomodoroTime {
+  font-size: 48px;
+  font-family: monospace;
+  text-align: center;
+  margin: 40px 0;
+}
+
+.alarm-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.alarm-form input,
+.alarm-form button {
+  padding: 8px;
+}
