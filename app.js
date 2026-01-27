@@ -188,7 +188,8 @@ function startPomodoro() {
 }
 /* --------- PREVISÃO DO TEMPO --------- */
 
-const WEATHER_API_KEY = "SUA_API_KEY_AQUI";
+const WEATHER_API_KEY = "1880dbb6574935507201750102a3a6e0
+";
 
 function fetchWeatherByCoords(lat, lon) {
   fetch(
