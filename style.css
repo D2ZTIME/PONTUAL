@@ -113,4 +113,24 @@ body {
   padding: 4px 0;
   border-bottom: 1px solid #334155;
 }
+.weather-box {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#weatherTemp {
+  font-size: 48px;
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+#weatherDesc {
+  text-transform: capitalize;
+}
+
+#weatherExtra {
+  margin-top: 8px;
+  font-size: 14px;
+  opacity: 0.8;
+}
 
