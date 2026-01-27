@@ -252,3 +252,30 @@ if ("geolocation" in navigator) {
 } else {
   fetchWeatherByCity();
 }
+/* --------- DATA + FUSOS --------- */
+function updateExtraTimes() {
+  const now = new Date();
+
+  document.getElementById("clockDate").textContent =
+    now.toLocaleDateString("pt-BR", {
+      weekday: "long",
+      day: "2-digit",
+      month: "long",
+      year: "numeric"
+    });
+
+  document.getElementById("tz-sp").textContent =
+    now.toLocaleTimeString("pt-BR");
+
+  document.getElementById("tz-ny").textContent =
+    now.toLocaleTimeString("en-US", { timeZone: "America/New_York" });
+
+  document.getElementById("tz-tk").textContent =
+    now.toLocaleTimeString("ja-JP", { timeZone: "Asia/Tokyo" });
+
+  document.getElementById("tz-ld").textContent =
+    now.toLocaleTimeString("en-GB", { timeZone: "Europe/London" });
+}
+
+setInterval(updateExtraTimes, 1000);
+updateExtraTimes();
