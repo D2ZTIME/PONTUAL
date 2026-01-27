@@ -1,91 +1,60 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<main class="dashboard">
 
-  <title>PONTUAL | D2ZTIME</title>
-  <meta name="description" content="Relógio multifuncional online com alarme, cronômetro e pomodoro." />
+  <!-- RELÓGIO -->
+  <section class="card clock-card">
+    <h3>Relógio Principal</h3>
+    <div id="clockTime" class="clock-time">00:00:00</div>
+    <p id="clockDate" class="clock-date"></p>
+  </section>
 
-  <link rel="icon" href="./logo.png" />
-  <link rel="stylesheet" href="./css/style.css" />
-</head>
-
-<body>
-  <header class="header">
-    <img src="./logo.png" class="logo" alt="D2ZTIME" />
-    <div>
-      <h1>PONTUAL</h1>
-      <span>by D2ZTIME</span>
+  <!-- FUSOS -->
+  <section class="card">
+    <div class="card-header">
+      <h3>Fusos Horários</h3>
     </div>
-  </header>
+    <div class="timezone-grid">
+      <div>São Paulo <span id="tz-sp"></span></div>
+      <div>New York <span id="tz-ny"></span></div>
+      <div>Tokyo <span id="tz-tk"></span></div>
+      <div>London <span id="tz-ld"></span></div>
+    </div>
+  </section>
 
-  <nav class="menu">
-    <button data-section="clock">Relógio</button>
-    <button data-section="alarm">Alarme</button>
-    <button data-section="stopwatch">Cronômetro</button>
-    <button data-section="pomodoro">Pomodoro</button>
-    <button data-section="weather">Clima</button>
+  <!-- ALARME -->
+  <section class="card">
+    <h3>Alarmes</h3>
+    <ul id="alarmList"></ul>
+  </section>
 
-  </nav>
+  <!-- CRONÔMETRO -->
+  <section class="card stopwatch-card">
+    <h3>Cronômetro</h3>
+    <div id="stopwatchTime" class="highlight green">00:00.000</div>
+    <div class="controls">
+      <button onclick="startStopwatch()">Iniciar</button>
+      <button onclick="pauseStopwatch()">Pausar</button>
+      <button onclick="resetStopwatch()">Resetar</button>
+    </div>
+  </section>
 
-  <main class="content">
-    <!-- RELÓGIO -->
-    <section id="clock" class="section active">
-      <div id="clockTime">00:00:00</div>
-    </section>
-
-    <!-- ALARME -->
-    <section id="alarm" class="section">
-      <h2>Alarmes</h2>
-
-      <div class="alarm-form">
-        <input type="time" id="alarmTime">
-        <input type="text" id="alarmDesc" placeholder="Descrição (opcional)">
-        <button onclick="addAlarm()">Criar Alarme</button>
-      </div>
-
-      <ul id="alarmList"></ul>
-    </section>
-
-   <section id="stopwatch" class="section">
-  <h2>Cronômetro</h2>
-
-  <div id="stopwatchTime">00:00:00.000</div>
-
-  <div class="stopwatch-controls">
-    <button onclick="startStopwatch()">Iniciar</button>
-    <button onclick="pauseStopwatch()">Pausar</button>
-    <button onclick="resetStopwatch()">Resetar</button>
-    <button onclick="lapStopwatch()">Volta</button>
-  </div>
-
-  <ul id="lapList"></ul>
-</section>
-
-    </section>
-
-    <!-- POMODORO -->
-    <section id="pomodoro" class="section">
-      <div id="pomodoroTime">25:00</div>
+  <!-- POMODORO -->
+  <section class="card pomodoro-card">
+    <h3>Pomodoro</h3>
+    <div id="pomodoroDisplay" class="highlight orange">25:00</div>
+    <p id="pomodoroStatus">Trabalho</p>
+    <div class="controls">
       <button onclick="startPomodoro()">Iniciar</button>
-    </section>
-    <section id="weather" class="section">
-  <h2>Clima agora</h2>
+      <button onclick="pausePomodoro()">Pausar</button>
+      <button onclick="resetPomodoro()">Resetar</button>
+    </div>
+  </section>
 
-  <div class="weather-box">
-    <p id="weatherCity">Detectando localização...</p>
-    <p id="weatherTemp">--°C</p>
-    <p id="weatherDesc">Carregando...</p>
-    <p id="weatherExtra"></p>
-  </div>
-</section>
+  <!-- CLIMA -->
+  <section class="card weather-card">
+    <h3>Previsão do Tempo</h3>
+    <p id="weatherCity"></p>
+    <div id="weatherTemp" class="highlight blue">--°C</div>
+    <p id="weatherDesc"></p>
+  </section>
 
-  </main>
-
-  <script src="./js/app.js"></script>
-</body>
-</html>
-<link rel="stylesheet" href="./css/style.css">
-<script src="./js/app.js"></script>
-
+</main>
