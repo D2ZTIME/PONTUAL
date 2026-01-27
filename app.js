@@ -124,6 +124,55 @@ function resetStopwatch() {
   swInterval = null;
   document.getElementById("stopwatchTime").textContent = "00:00:00";
 }
+/* --------- CRONÔMETRO AVANÇADO --------- */
+
+let swRunning = false;
+let swStartTime = 0;
+let swElapsed = 0;
+let swInterval = null;
+
+const swDisplay = document.getElementById("stopwatchTime");
+const lapList = document.getElementById("lapList");
+
+function formatTime(ms) {
+  const totalSeconds = Math.floor(ms / 1000);
+  const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, "0");
+  const seconds = String(totalSeconds % 60).padStart(2, "0");
+  const millis = String(ms % 1000).padStart(3, "0");
+  return `${minutes}:${seconds}.${millis}`;
+}
+
+function updateStopwatch() {
+  const now = Date.now();
+  swElapsed = now - swStartTime;
+  swDisplay.textContent = formatTime(swElapsed);
+}
+
+function startStopwatch() {
+  if (swRunning) return;
+  swRunning = true;
+  swStartTime = Date.now() - swElapsed;
+  swInterval = setInterval(updateStopwatch, 10);
+}
+
+function pauseStopwatch() {
+  swRunning = false;
+  clearInterval(swInterval);
+}
+
+function resetStopwatch() {
+  pauseStopwatch();
+  swElapsed = 0;
+  swDisplay.textContent = "00:00:00.000";
+  lapList.innerHTML = "";
+}
+
+function lapStopwatch() {
+  if (!swRunning) return;
+  const li = document.createElement("li");
+  li.textContent = formatTime(swElapsed);
+  lapList.prepend(li);
+}
 
 /* --------- POMODORO --------- */
 let pomodoro = 25 * 60;
