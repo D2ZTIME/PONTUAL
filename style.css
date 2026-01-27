@@ -72,3 +72,22 @@ body {
 .alarm-form button {
   padding: 8px;
 }
+#pomodoroDisplay {
+  font-size: 56px;
+  text-align: center;
+  margin: 20px 0;
+  font-family: monospace;
+}
+
+.pomodoro-controls,
+.pomodoro-settings {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+  flex-wrap: wrap;
+}
+
+.pomodoro-settings input {
+  width: 60px;
+}
+
