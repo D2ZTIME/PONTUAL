@@ -1,3 +1,11 @@
+export default defineConfig(({ mode }) => ({
+  base: "/PONTUAL/", // Adicione esta linha
+  server: {
+    // ... resto da configuração
+  },
+  // ...
+}));
+
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
