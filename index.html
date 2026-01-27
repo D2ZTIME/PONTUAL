@@ -46,11 +46,21 @@
       <ul id="alarmList"></ul>
     </section>
 
-    <!-- CRONÔMETRO -->
-    <section id="stopwatch" class="section">
-      <div id="stopwatchTime">00:00:00</div>
-      <button onclick="startStopwatch()">Iniciar</button>
-      <button onclick="resetStopwatch()">Resetar</button>
+   <section id="stopwatch" class="section">
+  <h2>Cronômetro</h2>
+
+  <div id="stopwatchTime">00:00:00.000</div>
+
+  <div class="stopwatch-controls">
+    <button onclick="startStopwatch()">Iniciar</button>
+    <button onclick="pauseStopwatch()">Pausar</button>
+    <button onclick="resetStopwatch()">Resetar</button>
+    <button onclick="lapStopwatch()">Volta</button>
+  </div>
+
+  <ul id="lapList"></ul>
+</section>
+
     </section>
 
     <!-- POMODORO -->
