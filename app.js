@@ -14,19 +14,36 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-/* --------- ALARME --------- */
+/* --------- ALARME COM SOM + NOTIFICAÇÃO --------- */
+
 let alarms = JSON.parse(localStorage.getItem("alarms")) || [];
 
+// Permissão de notificação
+function requestNotificationPermission() {
+  if (!("Notification" in window)) {
+    alert("Este navegador não suporta notificações.");
+    return;
+  }
+
+  Notification.requestPermission().then(permission => {
+    if (permission === "granted") {
+      alert("Notificações ativadas com sucesso!");
+    }
+  });
+}
+
+// Renderiza alarmes
 function renderAlarms() {
   const list = document.getElementById("alarmList");
   list.innerHTML = "";
-  alarms.forEach((a, i) => {
+
+  alarms.forEach((alarm, index) => {
     const li = document.createElement("li");
-    li.textContent = `${a.time} - ${a.desc}`;
-    li.onclick = () => {
-      alarms.splice(i, 1);
-      saveAlarms();
-    };
+    li.innerHTML = `
+      <strong>${alarm.time}</strong>
+      ${alarm.desc ? " - " + alarm.desc : ""}
+      <button onclick="removeAlarm(${index})">❌</button>
+    `;
     list.appendChild(li);
   });
 }
@@ -34,8 +51,20 @@ function renderAlarms() {
 function addAlarm() {
   const time = document.getElementById("alarmTime").value;
   const desc = document.getElementById("alarmDesc").value;
+
   if (!time) return;
-  alarms.push({ time, desc });
+
+  alarms.push({
+    time,
+    desc,
+    triggered: false
+  });
+
+  saveAlarms();
+}
+
+function removeAlarm(index) {
+  alarms.splice(index, 1);
   saveAlarms();
 }
 
@@ -43,7 +72,39 @@ function saveAlarms() {
   localStorage.setItem("alarms", JSON.stringify(alarms));
   renderAlarms();
 }
+
+// Verifica alarmes a cada segundo
+setInterval(() => {
+  const now = new Date();
+  const currentTime = now.toTimeString().slice(0, 5); // HH:MM
+
+  alarms.forEach(alarm => {
+    if (alarm.time === currentTime && !alarm.triggered) {
+      triggerAlarm(alarm);
+      alarm.triggered = true;
+      saveAlarms();
+    }
+  });
+}, 1000);
+
+// Disparo do alarme
+function triggerAlarm(alarm) {
+  // Som
+  const sound = document.getElementById("alarmSound");
+  sound.play().catch(() => {});
+
+  // Notificação
+  if (Notification.permission === "granted") {
+    new Notification("⏰ Alarme PONTUAL", {
+      body: alarm.desc || "Hora do seu alarme!",
+    });
+  } else {
+    alert("⏰ Alarme: " + (alarm.desc || alarm.time));
+  }
+}
+
 renderAlarms();
+;
 
 /* --------- CRONÔMETRO --------- */
 let swInterval, swStart;
