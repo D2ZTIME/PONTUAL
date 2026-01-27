@@ -186,3 +186,68 @@ function startPomodoro() {
     el.textContent = `${m}:${s}`;
   }, 1000);
 }
+/* --------- PREVISÃO DO TEMPO --------- */
+
+const WEATHER_API_KEY = "SUA_API_KEY_AQUI";
+
+function fetchWeatherByCoords(lat, lon) {
+  fetch(
+    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric&lang=pt_br`
+  )
+    .then(res => res.json())
+    .then(updateWeatherUI)
+    .catch(showWeatherError);
+}
+
+function fetchWeatherByCity(city = "São Paulo") {
+  fetch(
+    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${WEATHER_API_KEY}&units=metric&lang=pt_br`
+  )
+    .then(res => res.json())
+    .then(updateWeatherUI)
+    .catch(showWeatherError);
+}
+
+function updateWeatherUI(data) {
+  if (!data || !data.main) {
+    showWeatherError();
+    return;
+  }
+
+  document.getElementById("weatherCity").textContent =
+    `${data.name}, ${data.sys.country}`;
+
+  document.getElementById("weatherTemp").textContent =
+    `${Math.round(data.main.temp)}°C`;
+
+  document.getElementById("weatherDesc").textContent =
+    data.weather[0].description;
+
+  document.getElementById("weatherExtra").textContent =
+    `💧 Umidade: ${data.main.humidity}% | 🌬️ Vento: ${data.wind.speed} km/h`;
+}
+
+function showWeatherError() {
+  document.getElementById("weatherCity").textContent =
+    "Clima indisponível";
+  document.getElementById("weatherTemp").textContent = "--°C";
+  document.getElementById("weatherDesc").textContent =
+    "Não foi possível carregar os dados";
+}
+
+// Inicialização
+if ("geolocation" in navigator) {
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      fetchWeatherByCoords(
+        pos.coords.latitude,
+        pos.coords.longitude
+      );
+    },
+    () => {
+      fetchWeatherByCity(); // fallback
+    }
+  );
+} else {
+  fetchWeatherByCity();
+}
