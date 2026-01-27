@@ -90,4 +90,27 @@ body {
 .pomodoro-settings input {
   width: 60px;
 }
+#stopwatchTime {
+  font-size: 52px;
+  text-align: center;
+  margin: 20px 0;
+  font-family: monospace;
+}
+
+.stopwatch-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+#lapList {
+  list-style: none;
+  font-family: monospace;
+}
+
+#lapList li {
+  padding: 4px 0;
+  border-bottom: 1px solid #334155;
+}
 
