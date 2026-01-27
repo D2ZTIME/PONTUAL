@@ -1,61 +1,65 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>PONTUAL | D2ZTIME</title>
+  <meta name="description" content="Relógio multifuncional online com alarme, cronômetro e pomodoro." />
 
-  <meta name="description" content="PONTUAL é um relógio multifuncional com alarme, cronômetro e pomodoro." />
-  <meta name="author" content="D2ZTIME" />
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="PONTUAL - D2ZTIME" />
-  <meta property="og:description" content="Relógio digital multifuncional online" />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="./logo.png" />
-
-  <!-- Favicon -->
   <link rel="icon" href="./logo.png" />
-
-  <!-- CSS -->
   <link rel="stylesheet" href="./css/style.css" />
 </head>
 
 <body>
-  <div class="app">
+  <header class="header">
+    <img src="./logo.png" class="logo" alt="D2ZTIME" />
+    <div>
+      <h1>PONTUAL</h1>
+      <span>by D2ZTIME</span>
+    </div>
+  </header>
 
-    <!-- HEADER -->
-    <header class="app-header">
-      <div class="header-content">
-        <img src="./logo.png" alt="Logo D2ZTIME" class="logo-img" />
+  <nav class="menu">
+    <button data-section="clock">Relógio</button>
+    <button data-section="alarm">Alarme</button>
+    <button data-section="stopwatch">Cronômetro</button>
+    <button data-section="pomodoro">Pomodoro</button>
+  </nav>
 
-        <div class="header-text">
-          <h1 class="app-title">PONTUAL</h1>
-          <p class="app-subtitle">by D2ZTIME</p>
-        </div>
+  <main class="content">
+    <!-- RELÓGIO -->
+    <section id="clock" class="section active">
+      <div id="clockTime">00:00:00</div>
+    </section>
+
+    <!-- ALARME -->
+    <section id="alarm" class="section">
+      <h2>Alarmes</h2>
+
+      <div class="alarm-form">
+        <input type="time" id="alarmTime">
+        <input type="text" id="alarmDesc" placeholder="Descrição (opcional)">
+        <button onclick="addAlarm()">Criar Alarme</button>
       </div>
-    </header>
 
-    <!-- SIDEBAR -->
-    <nav class="sidebar">
-      <ul>
-        <li>Relógio</li>
-        <li>Alarme</li>
-        <li>Cronômetro</li>
-        <li>Pomodoro</li>
-        <li>Clima</li>
-      </ul>
-    </nav>
+      <ul id="alarmList"></ul>
+    </section>
 
-    <!-- CONTEÚDO -->
-    <main class="content">
-      <div id="clock">00:00:00</div>
-    </main>
+    <!-- CRONÔMETRO -->
+    <section id="stopwatch" class="section">
+      <div id="stopwatchTime">00:00:00</div>
+      <button onclick="startStopwatch()">Iniciar</button>
+      <button onclick="resetStopwatch()">Resetar</button>
+    </section>
 
-  </div>
+    <!-- POMODORO -->
+    <section id="pomodoro" class="section">
+      <div id="pomodoroTime">25:00</div>
+      <button onclick="startPomodoro()">Iniciar</button>
+    </section>
+  </main>
 
-  <!-- JS -->
   <script src="./js/app.js"></script>
 </body>
 </html>
